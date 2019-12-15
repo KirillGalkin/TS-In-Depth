@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "target": "esnext",
     "module": "esnext",
     "moduleResolution": "node",
     "sourceMap": true,
@@ -12,10 +12,6 @@
     "outDir": "./dist",
     "incremental": true,
     "tsBuildInfoFile": "./buildcache"
-
   },
-  "exclude": [
-    "node_modules",
-    "dist"
-  ]
+  "exclude": ["node_modules", "dist"]
 }
