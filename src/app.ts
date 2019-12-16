@@ -161,4 +161,54 @@ const checkoutBooks = (customer: string, ...bookIDs: number[]): string[] => {
   return titles;
 };
 
-const myBooks = checkoutBooks("Ann", 1, 2, 4);
+// const myBooks = checkoutBooks("Ann", ...[1, 2, 4]);
+// console.log(myBooks);
+
+// Task 03.04
+
+function getTitles(author: string): string[];
+function getTitles(available: boolean): string[];
+function getTitles(id: number, available: boolean): string[];
+function getTitles(...args: any[]): string[] {
+  const books = getAllBooks();
+  if (args.length === 0) {
+    return [];
+  } else if (args.length === 1) {
+    const arg = args[0];
+
+    if (typeof arg === "string") {
+      return books.filter(book => book.author === arg).map(book => book.title);
+    } else if (typeof arg === "boolean") {
+      return books
+        .filter(book => book.available === arg)
+        .map(book => book.title);
+    }
+  } else if (args.length === 2) {
+    const id = args[0];
+    const available = args[1];
+
+    if (typeof id === "number" && typeof available === "boolean") {
+      return books
+        .filter(book => book.id === id && book.available === available)
+        .map(book => book.title);
+    }
+  }
+}
+
+const checkedOutBooks = getTitles("Evan Burchard");
+
+// Task 03.05
+
+function assertStringValue(value: any): asserts value is string {
+  if (typeof value !== "string") {
+    throw new Error("value should have been a string");
+  }
+}
+
+function bookTitleTransform(title: any) {
+  assertStringValue(title);
+  return [...title].reverse().join("");
+}
+
+bookTitleTransform(getAllBooks()[0].title);
+bookTitleTransform(10);
