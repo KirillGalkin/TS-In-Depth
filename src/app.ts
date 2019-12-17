@@ -19,10 +19,12 @@ interface IBook {
   author: string;
   available: boolean;
   category: Category;
+  pages?: number;
+  markDamaged?: IDamageLogger;
 }
 
 const getAllBooks = (): readonly IBook[] => {
-  const books = <const>[
+  const books: readonly IBook[] = <const>[
     {
       id: 1,
       title: "Refactoring JavaScript",
@@ -96,27 +98,27 @@ const getBookAuthorByIndex = (index: number): [string, string] => {
 
 getBookAuthorByIndex(1);
 
-const calcTotalPages = (): bigint => {
-  const data = <const>[
-    { lib: "libName1", books: 1_000_000_000, avgPagesPerBook: 250 },
-    { lib: "libName2", books: 5_000_000_000, avgPagesPerBook: 300 },
-    { lib: "libName3", books: 3_000_000_000, avgPagesPerBook: 280 }
-  ];
+// const calcTotalPages = (): bigint => {
+//   const data = <const>[
+//     { lib: "libName1", books: 1_000_000_000, avgPagesPerBook: 250 },
+//     { lib: "libName2", books: 5_000_000_000, avgPagesPerBook: 300 },
+//     { lib: "libName3", books: 3_000_000_000, avgPagesPerBook: 280 }
+//   ];
 
-  let pagesQuantity = data.reduce(
-    (acc: bigint, val) => acc + BigInt(val.books) * BigInt(val.avgPagesPerBook),
-    0n
-  );
+//   let pagesQuantity = data.reduce(
+//     (acc: bigint, val) => acc + BigInt(val.books) * BigInt(val.avgPagesPerBook),
+//     0n
+//   );
 
-  return pagesQuantity;
-};
+//   return pagesQuantity;
+// };
 
 // Task 03.01
 
 // const titles = getBookTitlesByCategory(Category.JavaScript);
 titles.forEach(el => console.log(el));
 
-const getBookById = (id: number): IBook => {
+const getBookById = (id: number): IBook | undefined => {
   const books = getAllBooks();
   return books.find(book => book.id === id);
 };
@@ -212,3 +214,83 @@ function bookTitleTransform(title: any) {
 
 bookTitleTransform(getAllBooks()[0].title);
 bookTitleTransform(10);
+
+// Task 04.01
+
+function printBook(book: IBook): void {
+  console.log(`${book.title} by ${book.author}`);
+}
+
+const myBook: IBook = {
+  id: 5,
+  title: "Colors, Backgrounds, and Gradients",
+  author: "Eric A. Meyer",
+  available: true,
+  category: Category.CSS,
+  pages: 200,
+  markDamaged: (reason: string) => console.log(`Damaged: ${reason}`)
+};
+
+printBook(myBook);
+myBook.markDamaged("missing back cover");
+
+// Task 04.02
+
+interface IDamageLogger {
+  (param: string): void;
+}
+
+let logDamage: IDamageLogger;
+
+logDamage = (reason: string) => console.log(`Damage logger: ${reason}`);
+logDamage("test");
+
+// Task 04.03
+
+interface Person {
+  name: string;
+  email: string;
+}
+
+interface Author extends Person {
+  numBooksPublished: number;
+}
+
+interface Librarian extends Person {
+  department: string;
+  assistCustomer: (custName: string) => void;
+}
+
+const favouriteAuthor: Author = {
+  name: "test",
+  email: "test",
+  numBooksPublished: 1
+};
+
+const favouriteLibrarian: Librarian = {
+  name: "test",
+  email: "test",
+  department: "test",
+  assistCustomer: test => console.log(`${test}`)
+};
+
+// Task 04.0
+let offer: any;
+offer = {
+  book: { title: "EssentialTypeScript" }
+};
+console.log(offer?.magazine);
+
+// Task 04.05
+
+type BookProperties = keyof IBook;
+
+const getBookProp = (book: IBook, prop: BookProperties): any => {
+  if (typeof book[prop] === "function") {
+    return (book[prop] as Function).name;
+  }
+};
+
+getBookProp(getAllBooks()[0], "title");
+getBookProp(getAllBooks()[0], "markDamaged");
+// getBookProp(getAllBooks()[0], 'isbn');
