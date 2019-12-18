@@ -118,7 +118,7 @@ getBookAuthorByIndex(1);
 // const titles = getBookTitlesByCategory(Category.JavaScript);
 titles.forEach(el => console.log(el));
 
-const getBookById = (id: number): IBook | undefined => {
+const getBookById = (id: number): BookOrUndefined => {
   const books = getAllBooks();
   return books.find(book => book.id === id);
 };
@@ -247,16 +247,16 @@ logDamage("test");
 
 // Task 04.03
 
-interface Person {
+interface IPerson {
   name: string;
   email: string;
 }
 
-interface Author extends Person {
+interface Author extends IPerson {
   numBooksPublished: number;
 }
 
-interface Librarian extends Person {
+interface Librarian extends IPerson {
   department: string;
   assistCustomer: (custName: string) => void;
 }
@@ -294,3 +294,102 @@ const getBookProp = (book: IBook, prop: BookProperties): any => {
 getBookProp(getAllBooks()[0], "title");
 getBookProp(getAllBooks()[0], "markDamaged");
 // getBookProp(getAllBooks()[0], 'isbn');
+
+// Task 05.01
+
+abstract class ReferenceItem {
+  // title: string;
+  // year: number;
+
+  // constructor(newTitle: string, newYear: number) {
+  //   console.log("Creating a new ReferenceItem...");
+
+  //   this.title = newTitle;
+  //   this.year = newYear;
+  // }
+
+  private _publisher: string;
+
+  static department: string = "Literature";
+
+  constructor(public title: string, protected year: number) {}
+
+  printItem(): void {
+    console.log(`${this.title} was published in ${this.year}`);
+    console.log(`Department: ${ReferenceItem.department}`);
+  }
+
+  get publisher(): string {
+    return this._publisher.toUpperCase();
+  }
+
+  set publisher(newPublisher: string) {
+    this._publisher = newPublisher;
+  }
+
+  abstract printCitation(): void;
+}
+
+// const ref: ReferenceItem = new ReferenceItem("TS", 2012);
+// ref.printItem();
+// ref.publisher = "Popular Book Publisher";
+// console.log(ref.publisher);
+
+// Task 05.02
+
+class Encyclopedia extends ReferenceItem {
+  constructor(title: string, year: number, public edition: number) {
+    super(title, year);
+  }
+
+  printItem() {
+    super.printItem();
+    console.log(`Edition: ${this.edition} ${this.year}`);
+  }
+
+  printCitation(): void {
+    console.log(`${this.title} - ${this.year}`);
+  }
+}
+
+// const refBook: Encyclopedia = new Encyclopedia("Large Book", 2019, 5);
+// refBook.printItem();
+
+// Task 05.03
+
+const refBook: Encyclopedia = new Encyclopedia("Large Book", 2019, 5);
+refBook.printCitation();
+
+// Task 05.04
+
+class UniversityLibrarian implements Librarian {
+  name: string;
+  email: string;
+  department: string;
+
+  assistCustomer(custName: string): void {
+    console.log(`${this.name} is assisting ${custName}`);
+  }
+}
+
+const favoriteLibrarian: Librarian = new UniversityLibrarian();
+favoriteLibrarian.name = "Anna";
+favoriteLibrarian.assistCustomer("Boris");
+
+// Task 05.05
+
+type PersonBook = IPerson & IBook;
+
+const PersonBook: PersonBook = {
+  name: "Anna",
+  email: "test@mail.com",
+  id: 1,
+  title: "test",
+  author: "Test",
+  available: true,
+  category: Category.TypeScript
+};
+
+console.log(PersonBook);
+
+type BookOrUndefined = IBook | undefined;
