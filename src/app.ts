@@ -10,12 +10,18 @@ import {
   getTitles,
   bookTitleTransform,
   printBook,
-  getBookProp
+  getBookProp,
+  purge
 } from "./functions";
 import { Category } from "./enums";
-import { IBook, Author, Librarian, Logger } from "./interfaces";
-import { PersonBook } from "./types";
-import { ReferenceItem, UniversityLibrarian, RefBook } from "./classes";
+import { IBook, Author, Librarian, Logger, Magazine } from "./interfaces";
+import {
+  PersonBook,
+  BookRequiredFields,
+  UpdatedBook,
+  createCustomerFunctionType
+} from "./types";
+import { ReferenceItem, UniversityLibrarian, RefBook, Shelf } from "./classes";
 
 showHello("greeting", "TypeScript");
 
@@ -157,3 +163,84 @@ import("./classes").then(module => {
   reader.name = "Anna";
   reader.take(getAllBooks()[0]);
 });
+
+// Task 07.01
+
+const inventory: Array<IBook> = [
+  {
+    id: 10,
+    title: "The C Programming Language",
+    author: "K & R",
+    available: true,
+    category: Category.Software
+  },
+  {
+    id: 11,
+    title: "Code Complete",
+    author: "Steve McConnell",
+    available: true,
+    category: Category.Software
+  },
+  {
+    id: 12,
+    title: "8-Bit Graphics with Cobol",
+    author: "A. B.",
+    available: true,
+    category: Category.Software
+  },
+  {
+    id: 13,
+    title: "Cool autoexec.bat Scripts!",
+    author: "C. D.",
+    available: true,
+    category: Category.Software
+  }
+];
+
+// const result = purge<IBook>(inventory);
+// console.log(result);
+
+// const result2 = purge([1, 2, 3, 4]);
+
+// Task 07.02
+const bookShelf: Shelf<IBook> = new Shelf<IBook>();
+inventory.forEach(book => bookShelf.add(book));
+
+const firstBook = bookShelf.getFirst();
+console.log(firstBook.title);
+
+const magazines: Array<Magazine> = [
+  { title: "Programming Language Monthly", publisher: "Code Mags" },
+  { title: "Literary Fiction Quarterly", publisher: "College Press" },
+  { title: "Five Points", publisher: "GSU" }
+];
+
+const magazineShelf: Shelf<Magazine> = new Shelf<Magazine>();
+magazines.forEach(mag => magazineShelf.add(mag));
+const firstMagazine = magazineShelf.getFirst();
+console.log(firstMagazine.title);
+
+// Task 07.03
+
+bookShelf.printTitles();
+const mag = magazineShelf.find("Five Points");
+console.log(mag);
+
+// Task 07.04
+
+// const book: BookRequiredFields = {
+//   id: 1,
+//   title: "Refactorung",
+//   author: "unknown",
+//   available: false,
+//   pages: 500,
+//   category: Category.TypeScript,
+//   markDamaged: null
+// };
+
+const book: UpdatedBook = {
+  id: 1
+};
+
+const params: Parameters<createCustomerFunctionType> = ["Anna"];
+createCustomer(...params);

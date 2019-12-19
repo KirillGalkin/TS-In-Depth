@@ -168,3 +168,9 @@ export const getBookProp = (book: IBook, prop: BookProperties): any => {
     return (book[prop] as Function).name;
   }
 };
+
+// Task 07.01
+
+export function purge<T>(inventory: Array<T>): Array<T> {
+  return inventory.slice(2);
+}
