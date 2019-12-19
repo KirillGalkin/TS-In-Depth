@@ -22,6 +22,7 @@ import {
   createCustomerFunctionType
 } from "./types";
 import { ReferenceItem, UniversityLibrarian, RefBook, Shelf } from "./classes";
+import Encyclopedia from "./classes/encyclopedia";
 
 showHello("greeting", "TypeScript");
 
@@ -244,3 +245,43 @@ const book: UpdatedBook = {
 
 const params: Parameters<createCustomerFunctionType> = ["Anna"];
 createCustomer(...params);
+
+// Task 08.01
+
+const universityLibrarian = new UniversityLibrarian();
+// Task 08.02
+
+// const fLibrarian = new UniversityLibrarian();
+// fLibrarian.name = "Anna";
+// fLibrarian["printLibrarian"]();
+// (fLibrarian as any).printLibrarian()
+
+// Task 08.03
+
+// const fLibrarian = new UniversityLibrarian();
+// fLibrarian.assistFaculty = null;
+// fLibrarian.teachCommunity = null;
+
+// Task 08.04
+
+// const enc = new Encyclopedia("Title", 2019, 30);
+
+// enc.printItem();
+
+//Task 08.05
+
+// const fLibrarian = new UniversityLibrarian();
+// fLibrarian.name = "Anna";
+// fLibrarian.assistCustomer("Boris");
+
+// Task 08.06
+
+// const fLibrarian = new UniversityLibrarian();
+// fLibrarian.name = "Anna";
+// console.log(fLibrarian.name);
+
+// Task 08.07
+const enc = new Encyclopedia("Title", 2019, 30);
+
+enc.copies = 10;
+console.log(enc.copies);

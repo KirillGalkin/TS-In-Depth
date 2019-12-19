@@ -1,4 +1,5 @@
 import * as Interfaces from "../interfaces";
+import { timeout } from "../decorators";
 
 export abstract class ReferenceItem {
   // title: string;
@@ -17,6 +18,7 @@ export abstract class ReferenceItem {
 
   constructor(public title: string, protected year: number) {}
 
+  @timeout(2000)
   printItem(): void {
     console.log(`${this.title} was published in ${this.year}`);
     console.log(`Department: ${ReferenceItem.department}`);
