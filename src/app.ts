@@ -11,7 +11,11 @@ import {
   bookTitleTransform,
   printBook,
   getBookProp,
-  purge
+  purge,
+  getBooksByCategory,
+  logCategorySearch,
+  getBooksByCategoryPromise,
+  logSearchResults
 } from "./functions";
 import { Category } from "./enums";
 import { IBook, Author, Librarian, Logger, Magazine } from "./interfaces";
@@ -35,16 +39,16 @@ logFirstAvailable(getAllBooks());
 
 const titles = getBookTitlesByCategory(Category.JavaScript);
 
-logBookTitles(titles);
+// logBookTitles(titles);
 
-getBookAuthorByIndex(1);
+// getBookAuthorByIndex(1);
 
 // Task 03.01
 
 // const titles = getBookTitlesByCategory(Category.JavaScript);
-titles.forEach(el => console.log(el));
+// titles.forEach(el => console.log(el));
 
-getBookById(1);
+// getBookById(1);
 
 // Task 03.02
 
@@ -158,12 +162,12 @@ refBook.printItem();
 
 // Task 06.05
 
-import("./classes").then(module => {
-  const reader = new module.Reader();
-  console.log(reader);
-  reader.name = "Anna";
-  reader.take(getAllBooks()[0]);
-});
+// import("./classes").then(module => {
+//   const reader = new module.Reader();
+//   console.log(reader);
+//   reader.name = "Anna";
+//   reader.take(getAllBooks()[0]);
+// });
 
 // Task 07.01
 
@@ -281,7 +285,35 @@ const universityLibrarian = new UniversityLibrarian();
 // console.log(fLibrarian.name);
 
 // Task 08.07
-const enc = new Encyclopedia("Title", 2019, 30);
+// const enc = new Encyclopedia("Title", 2019, 30);
 
-enc.copies = 10;
-console.log(enc.copies);
+// enc.copies = 10;
+// console.log(enc.copies);
+
+// Task 09.01
+
+// console.log("Beginning search ...");
+// getBooksByCategory(Category.JavaScript, logCategorySearch);
+// getBooksByCategory(Category.Software, logCategorySearch);
+// console.log("End");
+
+// Task 09.02
+
+// console.log("Beginning search ...");
+// getBooksByCategoryPromise(Category.JavaScript)
+//   .then(data => {
+//     console.log(data);
+//     return data.length;
+//   })
+//   .then(numOfBooks => console.log(numOfBooks))
+//   .catch(reason => console.log(reason));
+// getBooksByCategoryPromise(Category.Software)
+//   .then(data => console.log(data))
+//   .catch(reason => console.log(reason));
+// console.log("End");
+
+// Task 09.03
+
+console.log("Beginning search ...");
+logSearchResults(Category.JavaScript).catch(err => console.log(err));
+console.log("End");
